@@ -2,6 +2,8 @@
 
 A polished front-end demo showcasing a future Barclays-style in-app banking support experience powered by in-app WebRTC calling, multimodal AI servicing, and seamless AI-to-human handoff.
 
+**[🚀 View Live Demo on GitHub Pages](https://ready2k.github.io/inAppExperience/)**
+
 > **Disclaimer**: This is not production banking software. It is a strategic interactive demo for stakeholders. No real banking APIs, real WebRTC transport, or real AI are used. All data, sessions, and interactions are deterministic mock simulations.
 
 ---
@@ -19,6 +21,16 @@ To build for static hosting:
 npm run build     # outputs to dist/
 npm run preview   # serves dist/ locally at http://localhost:4173
 ```
+
+---
+
+## Deployment
+
+The project is automatically deployed to **GitHub Pages** via GitHub Actions on every push to the `main` branch.
+
+- **URL**: [https://ready2k.github.io/inAppExperience/](https://ready2k.github.io/inAppExperience/)
+- **Workflow**: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+- **Branch**: `gh-pages`
 
 ---
 
