@@ -94,9 +94,13 @@ export const demoScenes = [
     name: "Session Establishment",
     label: "Scene 4 of 8: Secure Handshake",
     delta: "Re-authentication vs persistent trust",
+    compareNarrative: {
+      today: "First, let's see what happens today when a normal mobile call arrives — the customer is asked to re-authenticate from scratch via IVR, with no session context carried forward.",
+      future: "Now with WebRTC In-App calling — a trusted DTMF key from the existing session confirms identity silently. No IVR, no repeated security questions."
+    },
     narration: {
       today: "The phone call starts with basic security questions. You have to prove who you are, even though you were just in the secure app.",
-      future: "Because the session is in-app, the AI already knows who you are and what you're looking at. The handshake is silent and secure."
+      future: "Because the call is initiated inside the authenticated app, a trusted DTMF key confirms identity automatically. No security questions, no IVR. The session carries forward instantly."
     }
   },
   {
@@ -104,6 +108,10 @@ export const demoScenes = [
     name: "Multimodal Interaction",
     label: "Scene 5 of 8: Multimodal AI Support",
     delta: "Voice-only vs Voice + Co-pilot UI",
+    compareNarrative: {
+      today: "Today, the call is voice-only — the agent works blind with no visibility of what the customer sees, and no transaction data in context.",
+      future: "With WebRTC In-App calling, voice and on-screen co-pilot UI combine — the AI surfaces the flagged transaction and action cards in real time as the customer speaks."
+    },
     narration: {
       today: "Traditional calls are voice-only. You can't see what the agent sees, and they can't show you the data easily.",
       future: "This is the multimodal copilot. While you speak, the AI surfaces interactive cards and data on-screen, combining the speed of voice with the clarity of UI."
@@ -114,6 +122,10 @@ export const demoScenes = [
     name: "Resolution Actions",
     label: "Scene 6 of 8: Real-time Resolution",
     delta: "Instructional vs Executional AI",
+    compareNarrative: {
+      today: "Today, the agent can only advise — the customer must manually execute every step, from disputing the charge to blocking the merchant.",
+      future: "With In-App AI, the customer is passed to the colleague with full contextual information — card frozen, dispute raised, rich data handed off — all within the conversation."
+    },
     narration: {
       today: "Most current AI can only tell you what to do. You still have to do the work yourself.",
       future: "The future AI is executional. It can freeze the card, block the merchant, and start the dispute journey — all during the conversation."

@@ -24,6 +24,19 @@
   color: var(--text-primary);
 }
 
+/* Light theme overrides — applied via data-theme="light" on <html> */
+[data-theme="light"] {
+  --bg-primary: #F1F5F9;
+  --bg-secondary: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  color-scheme: light;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

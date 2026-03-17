@@ -9,11 +9,18 @@ import { VoiceSessionUI } from './components/support/VoiceSessionUI';
 import { TodayView } from './components/mobile/TodayView';
 import { AgentDesktop } from './components/colleague/AgentDesktop';
 import { ArchitectureOverlay } from './components/overlays/ArchitectureOverlay';
+import { ContextDrawer } from './components/overlays/ContextDrawer';
 import { demoScripts } from './data/demoScripts';
+import { demoScenes } from './data/mockData';
 
-const ContainerLayout = ({ children, title }) => (
-  <div className="flex flex-col items-center gap-4">
-    <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-text-secondary h-4">{title}</span>
+const ContainerLayout = ({ children, title, description }) => (
+  <div className="flex flex-col items-center gap-3">
+    <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-text-secondary">{title}</span>
+    {description && (
+      <p className="text-[11px] text-slate-400 text-center leading-relaxed max-w-[220px] italic">
+        {description}
+      </p>
+    )}
     {children}
   </div>
 );
@@ -32,12 +39,20 @@ const SceneContent = ({ scene, mode, side }) => {
   return <TodayView />;
 };
 
+// Last scene index that participates in compare mode (scenes 7–8 are future-only).
+const COMPARE_MAX_SCENE = 5;
+
 const MainExperience = () => {
   const { currentScene, demoMode, setSessionState } = useDemo();
-  
+
   const isCompare = demoMode === 'compare';
   const showHandoff = currentScene.id === 6;
   const showArch = currentScene.id === 7;
+
+  // In compare mode, freeze the display at scene 5 (index 4) for scenes 6–8.
+  const compareScene = isCompare && currentScene.id > COMPARE_MAX_SCENE
+    ? demoScenes[COMPARE_MAX_SCENE]
+    : currentScene;
 
   // Handle Session States based on Scene
   useEffect(() => {
@@ -93,38 +108,67 @@ const MainExperience = () => {
             )}
           </motion.div>
         ) : (
-          <motion.div 
-            key={`compare-${currentScene.id}`}
+          <motion.div
+            key={`compare-${compareScene.id}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex items-center gap-12 px-12 scale-[0.8] transform-gpu"
           >
-            {/* Today Side */}
-            <ContainerLayout title="Today Journey">
-              <MobileFrame>
-                <SceneContent scene={currentScene} mode="today" side="today" />
-              </MobileFrame>
-            </ContainerLayout>
+            {compareScene.compareNarrative ? (
+              // Scenes 4–6: per-side narrative layout — no central delta pill
+              <>
+                <ContainerLayout
+                  title="Today"
+                  description={compareScene.compareNarrative.today}
+                >
+                  <MobileFrame>
+                    <SceneContent scene={compareScene} mode="today" side="today" />
+                  </MobileFrame>
+                </ContainerLayout>
 
-            {/* Delta Marker */}
-            <div className="flex flex-col items-center gap-2 max-w-[240px] text-center shrink-0">
-              <div className="h-16 w-[1px] bg-brand-cyan/30" />
-              <div className="bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-5 py-2">
-                <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-[0.2em]">The Insight</span>
-              </div>
-              <p className="text-sm font-semibold text-white mt-4 italic leading-relaxed">
-                "{currentScene.delta}"
-              </p>
-              <div className="h-16 w-[1px] bg-brand-cyan/30" />
-            </div>
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="h-40 w-[1px] bg-brand-cyan/20" />
+                  <div className="w-2 h-2 rounded-full bg-brand-cyan/40" />
+                  <div className="h-40 w-[1px] bg-brand-cyan/20" />
+                </div>
 
-            {/* Future Side */}
-            <ContainerLayout title="Future Journey">
-              <MobileFrame>
-                <SceneContent scene={currentScene} mode="future" side="future" />
-              </MobileFrame>
-            </ContainerLayout>
+                <ContainerLayout
+                  title="Future — WebRTC In-App"
+                  description={compareScene.compareNarrative.future}
+                >
+                  <MobileFrame>
+                    <SceneContent scene={compareScene} mode="future" side="future" />
+                  </MobileFrame>
+                </ContainerLayout>
+              </>
+            ) : (
+              // Scenes 1–3: standard delta-insight layout
+              <>
+                <ContainerLayout title="Today Journey">
+                  <MobileFrame>
+                    <SceneContent scene={compareScene} mode="today" side="today" />
+                  </MobileFrame>
+                </ContainerLayout>
+
+                <div className="flex flex-col items-center gap-2 max-w-[240px] text-center shrink-0">
+                  <div className="h-16 w-[1px] bg-brand-cyan/30" />
+                  <div className="bg-brand-cyan/10 border border-brand-cyan/20 rounded-full px-5 py-2">
+                    <span className="text-[10px] font-bold text-brand-cyan uppercase tracking-[0.2em]">The Insight</span>
+                  </div>
+                  <p className="text-sm font-semibold text-white mt-4 italic leading-relaxed">
+                    "{compareScene.delta}"
+                  </p>
+                  <div className="h-16 w-[1px] bg-brand-cyan/30" />
+                </div>
+
+                <ContainerLayout title="Future Journey">
+                  <MobileFrame>
+                    <SceneContent scene={compareScene} mode="future" side="future" />
+                  </MobileFrame>
+                </ContainerLayout>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -138,6 +182,7 @@ function App() {
       <div className="h-screen w-screen overflow-hidden bg-bg-primary text-text-primary">
         <PresenterControls />
         <MainExperience />
+        <ContextDrawer />
       </div>
     </DemoProvider>
   );

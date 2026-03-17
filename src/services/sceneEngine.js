@@ -12,10 +12,15 @@ export class SceneEngine {
     this.isPlaying = false;
     this.timer = null;
     this.mode = 'future'; // 'today' | 'future' | 'compare'
+    this.speed = 1; // playback speed multiplier
   }
 
   setMode(mode) {
     this.mode = mode;
+  }
+
+  setSpeed(multiplier) {
+    this.speed = multiplier > 0 ? multiplier : 1;
   }
 
   start() {
@@ -58,12 +63,12 @@ export class SceneEngine {
     // Trigger Narration
     if (this.onNarrationTrigger) {
       const text = this.mode === 'today' ? scene.narration.today : scene.narration.future;
-      this.onNarrationTrigger(text, index);
+      this.onNarrationTrigger(text, index, this.mode);
     }
 
     // Auto-advance logic (can be expanded later)
     if (this.isPlaying) {
-      const delay = scene.duration || 15000;
+      const delay = (scene.duration || 15000) / this.speed;
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         if (this.isPlaying) this.next();
