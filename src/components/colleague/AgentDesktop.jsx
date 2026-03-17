@@ -96,11 +96,45 @@ export const AgentDesktop = ({ handoffData, todayMode }) => {
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
-             <Search size={48} className="mb-4 text-slate-300" />
-             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Search for Customer</p>
-             <p className="text-[10px] text-slate-300 mt-2 px-8">No linked session found. Manual look-up required.</p>
-          </div>
+          <>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                <User size={24} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="font-bold text-slate-800">Joe</h2>
+                  <span className="text-[9px] bg-warning/10 text-warning border border-warning/20 rounded-full px-2 py-0.5 font-bold uppercase tracking-wide">Re-verify</span>
+                </div>
+                <p className="text-xs text-slate-400">Passed via DTMF — not confirmed</p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Contact Method</span>
+                <p className="text-xs font-bold mt-1 flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-warning" />
+                  In-App Dialling (DTMF)
+                </p>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Intent (DTMF)</span>
+                <p className="text-xs font-bold mt-1">Disputed Transaction</p>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] uppercase font-bold text-slate-400">ID&V Flag</span>
+                <p className="text-xs font-bold mt-1 flex items-center gap-1.5">
+                  <CheckCircle size={12} className="text-success" />
+                  Passed (app session)
+                </p>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Classification</span>
+                <p className="text-xs font-bold mt-1">Disputed Payment</p>
+              </div>
+            </div>
+          </>
         )}
       </div>
 
@@ -115,7 +149,7 @@ export const AgentDesktop = ({ handoffData, todayMode }) => {
               <div>
                 <span className="text-xs text-slate-400 uppercase font-bold tracking-widest">Active Interaction</span>
                 <p className="text-sm font-bold text-slate-800 italic">
-                  {todayMode ? '"Unknown Caller..."' : '"Joe is on the line..."'}
+                  {todayMode ? '"Joe — DTMF transfer, re-verify identity"' : '"Joe is on the line..."'}
                 </p>
               </div>
             </div>
@@ -145,10 +179,53 @@ export const AgentDesktop = ({ handoffData, todayMode }) => {
                </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center p-20 border-2 border-dashed border-slate-200 rounded-[32px] text-center bg-white/50">
-               <AlertCircle size={48} className="text-slate-300 mb-4" />
-               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Cold Transfer</h3>
-               <p className="text-xs text-slate-400 max-w-sm">No context luggage was shared during this transfer. Specialist must perform manual ID&V and re-capture intent.</p>
+            <div className="space-y-4">
+              {/* What arrived via DTMF */}
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-warning/10 border-b border-warning/20 px-4 py-3 flex items-center gap-2">
+                  <AlertCircle size={14} className="text-warning" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-warning">DTMF Transfer — Partial Context Only</span>
+                </div>
+                <div className="p-5 grid grid-cols-2 gap-3">
+                  {[
+                    { label: 'Name', value: 'Joe', received: true },
+                    { label: 'Intent', value: 'Disputed Transaction', received: true },
+                    { label: 'ID&V Status', value: 'Passed (flag only)', received: true },
+                    { label: 'Classification', value: 'Disputed Payment', received: true },
+                  ].map(({ label, value, received }) => (
+                    <div key={label} className="p-3 bg-success/5 border border-success/10 rounded-lg">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</p>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <CheckCircle size={11} className="text-success shrink-0" />
+                        <p className="text-xs font-medium text-slate-700">{value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* What's missing */}
+              <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-error/5 border-b border-error/10 px-4 py-3 flex items-center gap-2">
+                  <AlertCircle size={14} className="text-error" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-error">Not Available — Must Re-capture Manually</span>
+                </div>
+                <div className="p-5 grid grid-cols-2 gap-3">
+                  {[
+                    'Call Transcript',
+                    'Transaction Detail',
+                    'Actions Already Taken',
+                    'Customer Sentiment',
+                    'Account Context',
+                    'AI Recommendation',
+                  ].map((item) => (
+                    <div key={item} className="p-3 bg-slate-50 border border-slate-100 rounded-lg flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full border-2 border-slate-300 shrink-0" />
+                      <p className="text-xs text-slate-400">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>

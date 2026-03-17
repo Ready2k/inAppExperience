@@ -55,7 +55,10 @@ export const DemoProvider = ({ children }) => {
       const audio = new Audio(`${import.meta.env.BASE_URL}narration/${mode}/scene${sceneIndex}.mp3`);
       currentAudioRef.current = audio;
       audio.play().catch(() => {
-        // File not found or autoplay blocked — use Web Speech API.
+        // Only fall back to TTS if this audio is still the active one.
+        // If a newer narration has already taken over, do nothing — otherwise
+        // we'd start TTS alongside the already-playing MP3.
+        if (currentAudioRef.current !== audio) return;
         currentAudioRef.current = null;
         if (window.speechSynthesis) {
           const utterance = new SpeechSynthesisUtterance(text);

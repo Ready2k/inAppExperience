@@ -102,33 +102,35 @@ synthesize today 2 '<speak>
 synthesize today 3 '<speak>
 <prosody rate="91%">Scene four.</prosody>
 <break time="350ms"/>
-<prosody rate="91%">The phone call starts with basic security questions.</prosody>
+<prosody rate="91%">The <sub alias="D T M F">DTMF</sub> key has done its job — the <sub alias="I V R">IVR</sub> skips the security questions.</prosody>
 <break time="400ms"/>
-<prosody rate="91%">You have to prove who you are, even though you were just in the secure app.</prosody>
+<prosody rate="91%">But the customer is now in a voice-only queue, cut off from the app that already knew everything about them.</prosody>
 </speak>'
 
 synthesize today 4 '<speak>
 <prosody rate="91%">Scene five.</prosody>
 <break time="350ms"/>
-<prosody rate="91%">Traditional calls are voice-only.</prosody>
-<break time="350ms"/>
-<prosody rate="91%">You cannot see what the agent sees, and they cannot show you the data easily.</prosody>
+<prosody rate="91%">Before reaching an agent, the <sub alias="I V R">IVR</sub> experience has touch tone Call Steering Menus.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">These allow the <sub alias="I V R">IVR</sub> to route or provide additional guidance, via prompts — like "Press 1 for Fraud and Disputes".</prosody>
 </speak>'
 
 synthesize today 5 '<speak>
 <prosody rate="91%">Scene six.</prosody>
 <break time="350ms"/>
-<prosody rate="91%">Most current AI can only tell you what to do.</prosody>
+<prosody rate="91%">Now on hold. App context is gone.</prosody>
 <break time="400ms"/>
-<prosody rate="91%">You still have to do the work yourself.</prosody>
+<prosody rate="91%"><sub alias="I D and V">ID&amp;V</sub> is flagged as passed, but the agent will still need to reconfirm it.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">Estimated wait: five minutes.</prosody>
 </speak>'
 
 synthesize today 6 '<speak>
 <prosody rate="91%">Scene seven.</prosody>
 <break time="350ms"/>
-<prosody rate="91%">Handing over to a human usually means a cold transfer.</prosody>
+<prosody rate="91%">The agent answers. <sub alias="D T M F">DTMF</sub> passed a name and a basic intent flag — enough for a hello.</prosody>
 <break time="400ms"/>
-<prosody rate="91%">You repeat your name, your issue, and what you have already tried.</prosody>
+<prosody rate="91%">But the transaction detail, account context, and anything the customer has already done? The agent has none of it.</prosody>
 </speak>'
 
 synthesize today 7 '<speak>
@@ -173,11 +175,11 @@ synthesize future 2 '<speak>
 synthesize future 3 '<speak>
 <prosody rate="91%">Scene four.</prosody>
 <break time="350ms"/>
-<prosody rate="91%">Because the call is initiated inside the authenticated app, a trusted <sub alias="D T M F">DTMF</sub> key confirms identity automatically.</prosody>
+<prosody rate="91%">Because the call is initiated inside the authenticated app, the existing session metadata confirms identity automatically behind the scenes.</prosody>
 <break time="400ms"/>
-<prosody rate="91%">No security questions, no <sub alias="I V R">IVR</sub>.</prosody>
+<prosody rate="91%">Device fingerprint, authentication state, and customer context — all passed silently.</prosody>
 <break time="300ms"/>
-<prosody rate="91%">The session carries forward instantly.</prosody>
+<prosody rate="91%">No security questions, no <sub alias="I V R">IVR</sub>. The session carries forward instantly.</prosody>
 </speak>'
 
 synthesize future 4 '<speak>

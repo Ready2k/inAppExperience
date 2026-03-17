@@ -95,12 +95,12 @@ export const demoScenes = [
     label: "Scene 4 of 8: Secure Handshake",
     delta: "Re-authentication vs persistent trust",
     compareNarrative: {
-      today: "First, let's see what happens today when a normal mobile call arrives — the customer is asked to re-authenticate from scratch via IVR, with no session context carried forward.",
-      future: "Now with WebRTC In-App calling — a trusted DTMF key from the existing session confirms identity silently. No IVR, no repeated security questions."
+      today: "With in-app dialling today, DTMF attempts to pass basic identity data — but it's fragile. The transfer can be interrupted mid-stream, the customer has no idea what the digits represent, and a single accidental key press during the transfer corrupts the match entirely. If it fails, all context is lost and the customer is treated as an unknown external caller.",
+      future: "Now with WebRTC In-App calling — the customer's authenticated app session metadata is passed silently and reliably in the background. No DTMF, no risk of corruption, no repeated security questions."
     },
     narration: {
       today: "The phone call starts with basic security questions. You have to prove who you are, even though you were just in the secure app.",
-      future: "Because the call is initiated inside the authenticated app, a trusted DTMF key confirms identity automatically. No security questions, no IVR. The session carries forward instantly."
+      future: "Because the call is initiated inside the authenticated app, the existing session metadata — device fingerprint, app authentication state, and customer context — confirms identity automatically behind the scenes. No security questions, no IVR. The session carries forward instantly."
     }
   },
   {
