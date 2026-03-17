@@ -1,0 +1,142 @@
+export const mockCustomer = {
+  name: "Joe",
+  profile_id: "7829-XJ-1",
+  accounts: [
+    {
+      id: "acc_1",
+      type: "Current Account",
+      name: "Barclays Current",
+      balance: 1240.52,
+      currency: "GBP",
+      is_default: true,
+    },
+    {
+      id: "acc_2",
+      type: "Savings Account",
+      name: "Everyday Saver",
+      balance: 15600.00,
+      currency: "GBP",
+      rate: 4.75,
+    }
+  ],
+  recent_transactions: [
+    {
+      id: "tx_1",
+      date: "2026-03-17",
+      merchant: "Tesco Express",
+      amount: -12.45,
+      category: "Groceries",
+      status: "completed"
+    },
+    {
+      id: "tx_2",
+      date: "2026-03-17",
+      merchant: "Spotify Digital",
+      amount: -67.49,
+      category: "Entertainment",
+      status: "pending",
+      flagged: true,
+      suspicious: true,
+      description: "UK-SPOT-9283-PREMIUM"
+    },
+    {
+      id: "tx_3",
+      date: "2026-03-16",
+      merchant: "Shell Petrol",
+      amount: -85.12,
+      category: "Transport",
+      status: "completed"
+    },
+    {
+      id: "tx_4",
+      date: "2026-03-15",
+      merchant: "Amazon.co.uk",
+      amount: -24.99,
+      category: "Shopping",
+      status: "completed"
+    }
+  ]
+};
+
+export const demoScenes = [
+  {
+    id: 0,
+    name: "Entry / Account Activity",
+    label: "Scene 1 of 8: Monitoring Activity",
+    delta: "Manual search vs instant awareness",
+    narration: {
+      today: "Scene one. The customer is reviewing their recent card activity. They spot a transaction they don't recognise — but for now, they are on their own to find a solution.",
+      future: "Scene one. As soon as the customer views their activity, the AI-native experience highlights the suspicious spend and offers an immediate, contextual route to resolution."
+    }
+  },
+  {
+    id: 1,
+    name: "Finding Support",
+    label: "Scene 2 of 8: Seeking Help",
+    delta: "Menu hunting vs contextual entry",
+    narration: {
+      today: "Today, resolving an issue means navigating support menus and finding numbers. The app doesn't know what you're looking for.",
+      future: "In the future, support isn't a destination — it's a capability that lives where the problem is. One tap starts the journey with full context."
+    }
+  },
+  {
+    id: 2,
+    name: "Contact Initiation",
+    label: "Scene 3 of 8: Starting the Call",
+    delta: "Tapping a number vs one-tap WebRTC",
+    narration: {
+      today: "Choosing to call often means leaving the banking app entirely. The session is broken, and the wait begins.",
+      future: "Tapping 'Talk to AI' starts a secure WebRTC voice session instantly. No dialers, no menus, no wait."
+    }
+  },
+  {
+    id: 3,
+    name: "Session Establishment",
+    label: "Scene 4 of 8: Secure Handshake",
+    delta: "Re-authentication vs persistent trust",
+    narration: {
+      today: "The phone call starts with basic security questions. You have to prove who you are, even though you were just in the secure app.",
+      future: "Because the session is in-app, the AI already knows who you are and what you're looking at. The handshake is silent and secure."
+    }
+  },
+  {
+    id: 4,
+    name: "Multimodal Interaction",
+    label: "Scene 5 of 8: Multimodal AI Support",
+    delta: "Voice-only vs Voice + Co-pilot UI",
+    narration: {
+      today: "Traditional calls are voice-only. You can't see what the agent sees, and they can't show you the data easily.",
+      future: "This is the multimodal copilot. While you speak, the AI surfaces interactive cards and data on-screen, combining the speed of voice with the clarity of UI."
+    }
+  },
+  {
+    id: 5,
+    name: "Resolution Actions",
+    label: "Scene 6 of 8: Real-time Resolution",
+    delta: "Instructional vs Executional AI",
+    narration: {
+      today: "Most current AI can only tell you what to do. You still have to do the work yourself.",
+      future: "The future AI is executional. It can freeze the card, block the merchant, and start the dispute journey — all during the conversation."
+    }
+  },
+  {
+    id: 6,
+    name: "Human Handoff",
+    label: "Scene 7 of 8: Seamless Handoff",
+    delta: "Repeating yourself vs full context luggage",
+    narration: {
+      today: "Handing over to a human usually means a cold transfer. You repeat your name, your issue, and what you've already tried.",
+      future: "When the specialist joins, they don't start from zero. They arrive with a full 'context luggage' — the transcript, the actions taken, and the exact reason for the call."
+    }
+  },
+  {
+    id: 7,
+    name: "Strategic Overlay",
+    label: "Scene 8 of 8: Architecture Value",
+    delta: "Legacy PSTN vs Modern Data Strategy",
+    narration: {
+      today: "The legacy world is built on PSTN voice — isolated from data. It's expensive, opaque, and fragmented.",
+      future: "The future is WebRTC and Data. Every conversation is a data stream — rich, observable, and integrated into the bank's core logic."
+    }
+  }
+];
