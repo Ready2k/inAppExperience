@@ -9,6 +9,7 @@ import { VoiceSessionUI } from './components/support/VoiceSessionUI';
 import { TodayView } from './components/mobile/TodayView';
 import { AgentDesktop } from './components/colleague/AgentDesktop';
 import { ArchitectureOverlay } from './components/overlays/ArchitectureOverlay';
+import { SecureOutboundScreen } from './components/mobile/SecureOutboundScreen';
 import { ContextDrawer } from './components/overlays/ContextDrawer';
 import { demoScripts } from './data/demoScripts';
 import { demoScenes } from './data/mockData';
@@ -31,6 +32,7 @@ const SceneContent = ({ scene, mode, side }) => {
   const isFuture = side === 'future' || mode === 'future';
 
   if (isFuture) {
+    if (scene.id === 8 || scene.id === 9) return <SecureOutboundScreen scene={scene} />;
     if (showCallUI) return <VoiceSessionUI />;
     return <TransactionScreen />;
   }

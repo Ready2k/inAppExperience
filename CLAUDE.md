@@ -100,6 +100,10 @@ Device containers (`MobileFrame` 390×844px, `DesktopFrame` 1200×800px) wrap vi
 | 5 | On Hold — ID&V Incomplete + Estimated: 5m |
 | 6 | Agent connected — agent greets "Hi Joe, how can I help you today?" |
 | 7 | `TransactionScreen` (strategic overlay scene) |
+| 8 | Incoming PSTN call (unknown number, "Potential Spam") |
+| 9 | Connected PSTN call (unverified, "Caller identity unverified") |
+
+Scenes 8 and 9 demonstrate **secure outbound calling** (colleague → customer). Today mode shows a native-phone PSTN call from an unrecognised number with a "Potential Spam" warning. Future mode renders `SecureOutboundScreen` — an in-app verified call showing Jane Smith's name, role, and reason ("Update on reference BF12345678") with a green "Verified Barclays Call" badge before and during the call.
 
 The `DialerOverlay` is controlled by `overlayActive` state in `TodayView`. It activates on `currentScene.id === 2` and deactivates when `id > 2` (never self-dismisses). It synthesizes a UK ring tone (400Hz + 450Hz burst pattern) and standard DTMF tones using the Web Audio API, with no external audio assets.
 

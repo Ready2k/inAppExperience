@@ -2,7 +2,7 @@
 # =============================================================================
 # generate-narration-ssml.sh
 # Generates MP3 narration audio for all three demo modes (today / future / compare).
-# Output: public/narration/{mode}/scene{0-7}.mp3
+# Output: public/narration/{mode}/scene{0-9}.mp3
 # At runtime the app loads /narration/{demoMode}/scene{N}.mp3 and falls back to
 # Web Speech API if the file is absent.
 # =============================================================================
@@ -141,6 +141,26 @@ synthesize today 7 '<speak>
 <prosody rate="91%">It is expensive, opaque, and fragmented.</prosody>
 </speak>'
 
+synthesize today 8 '<speak>
+<prosody rate="91%">Scene nine.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">Today, when a Barclays colleague proactively calls a customer, the call arrives from an unknown number —</prosody>
+<break time="300ms"/>
+<prosody rate="91%">indistinguishable from a scam.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">Customers cannot verify it, and many will not even answer.</prosody>
+</speak>'
+
+synthesize today 9 '<speak>
+<prosody rate="91%">Scene ten.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">Even when the customer answers, uncertainty remains.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">Was this really Barclays? Is this safe to discuss openly?</prosody>
+<break time="350ms"/>
+<prosody rate="91%">This friction slows resolution and erodes trust.</prosody>
+</speak>'
+
 # ─────────────────────────────────────────────────────────────────────────────
 # FUTURE — AI-native in-app WebRTC experience
 # ─────────────────────────────────────────────────────────────────────────────
@@ -216,6 +236,24 @@ synthesize future 7 '<speak>
 <prosody rate="91%">Every conversation is a data stream — rich, observable, and integrated into the core banking platform.</prosody>
 </speak>'
 
+synthesize future 8 '<speak>
+<prosody rate="91%">Scene nine.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">With secure in-app outbound calling, the customer sees exactly who is calling, their role, and why —</prosody>
+<break time="300ms"/>
+<prosody rate="91%">all authenticated by Barclays before the call is even answered.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">No spoofing possible. The customer answers with confidence.</prosody>
+</speak>'
+
+synthesize future 9 '<speak>
+<prosody rate="91%">Scene ten.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">The connected session shows Jane&apos;s verified identity and the mortgage reference throughout.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">Both parties have full context — and full confidence — from the moment the call connects.</prosody>
+</speak>'
+
 # ─────────────────────────────────────────────────────────────────────────────
 # COMPARE — delta insight narration for side-by-side view
 # ─────────────────────────────────────────────────────────────────────────────
@@ -269,6 +307,28 @@ synthesize compare 7 '<speak>
 <prosody rate="91%">Scene eight. On the left, legacy <sub alias="P S T N">PSTN</sub> — opaque and fragmented.</prosody>
 <break time="400ms"/>
 <prosody rate="91%">On the right, <sub alias="Web R T C">WebRTC</sub> and data — every conversation is observable.</prosody>
+</speak>'
+
+synthesize compare 8 '<speak>
+<prosody rate="91%">Scene nine.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">On the left, the colleague calls from an unrecognised <sub alias="P S T N">PSTN</sub> number —</prosody>
+<break time="300ms"/>
+<prosody rate="91%">trivially easy to spoof, impossible to trust.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">On the right, the colleague&apos;s verified identity and reason for the call are displayed before the customer even answers.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">Zero ambiguity. Zero spoofing risk. Full trust.</prosody>
+</speak>'
+
+synthesize compare 9 '<speak>
+<prosody rate="91%">Scene ten.</prosody>
+<break time="350ms"/>
+<prosody rate="91%">On the left, the customer must share sensitive details with someone they cannot verify is really Barclays.</prosody>
+<break time="400ms"/>
+<prosody rate="91%">On the right, Jane&apos;s identity and the case reference remain visible throughout —</prosody>
+<break time="300ms"/>
+<prosody rate="91%">the customer is confident, cooperative, and the conversation is productive from the very first word.</prosody>
 </speak>'
 
 # ─────────────────────────────────────────────────────────────────────────────

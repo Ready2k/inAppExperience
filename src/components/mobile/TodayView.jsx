@@ -297,6 +297,82 @@ export const TodayView = ({ scene: propsScene }) => {
     );
   }
 
+  // Scene 9 (id 8): Incoming PSTN call — unknown number, unverified caller
+  if (currentScene.id === 8) {
+    return (
+      <div className="flex flex-col h-full bg-slate-950 text-white">
+        <div className="pt-14 flex flex-col items-center gap-2">
+          <span className="text-[10px] uppercase tracking-widest text-white/40">Incoming Call</span>
+          <div className="flex items-center gap-1.5 bg-warning/15 border border-warning/30 rounded-full px-3 py-1 mt-1">
+            <span className="text-[10px] font-bold text-warning uppercase tracking-wider">Potential Spam</span>
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center gap-5 px-8">
+          <motion.div
+            animate={{ scale: [1, 1.04, 1] }}
+            transition={{ repeat: Infinity, duration: 1.8 }}
+          >
+            <div className="w-24 h-24 rounded-full bg-slate-700 flex items-center justify-center">
+              <Phone size={36} className="text-slate-400" />
+            </div>
+          </motion.div>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">+44 7911 234567</h2>
+            <p className="text-sm text-slate-400 mt-1">Unknown Caller</p>
+          </div>
+          <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+            <p className="text-xs text-slate-400 leading-relaxed">Caller identity cannot be verified.<br />This may not be your bank.</p>
+          </div>
+        </div>
+        <div className="pb-12 px-8">
+          <div className="flex justify-center gap-20">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-16 h-16 rounded-full bg-error flex items-center justify-center shadow-lg shadow-error/30"><PhoneOff size={26} /></div>
+              <span className="text-xs text-white/50">Decline</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+                className="w-16 h-16 rounded-full bg-success flex items-center justify-center shadow-lg shadow-success/30"
+              >
+                <Phone size={26} />
+              </motion.div>
+              <span className="text-xs text-white/50">Answer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Scene 10 (id 9): Connected PSTN call — no identity, no context
+  if (currentScene.id === 9) {
+    return (
+      <div className="flex flex-col h-full bg-slate-900 text-white p-6">
+        <div className="mt-16 flex-1 flex flex-col items-center gap-6">
+          <div className="w-24 h-24 rounded-full bg-slate-700 flex items-center justify-center">
+            <Phone size={40} className="text-slate-400" />
+          </div>
+          <div className="text-center">
+            <h2 className="text-xl font-bold">+44 7911 234567</h2>
+            <p className="text-sm text-slate-400">Call Active • 00:47</p>
+          </div>
+          <div className="mt-2 bg-white/5 border border-white/10 p-4 rounded-xl text-center w-full">
+            <p className="text-xs italic text-slate-400">"Hi Joe, this is Barclays calling about your mortgage..."</p>
+          </div>
+          <div className="flex items-center gap-2 bg-warning/10 border border-warning/20 rounded-full px-4 py-2">
+            <ShieldQuestion size={13} className="text-warning" />
+            <span className="text-[11px] text-warning/80">Caller identity unverified</span>
+          </div>
+        </div>
+        <div className="pb-12 flex justify-center">
+          <div className="w-16 h-16 rounded-full bg-error flex items-center justify-center shadow-lg shadow-error/30"><PhoneOff size={28} /></div>
+        </div>
+      </div>
+    );
+  }
+
   // Scene 7 (id 6): Agent connected — cold transfer, no context
   if (currentScene.id === 6) {
     return (
