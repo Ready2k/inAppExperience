@@ -86,6 +86,31 @@ Device containers (`MobileFrame` 390×844px, `DesktopFrame` 1200×800px) wrap vi
 - **Framer Motion** for all transitions, waveform animations, pulsing highlights
 - Compare mode scales both frames to 0.8 for side-by-side fit
 
+### Today Mode Scene Mapping
+
+`TodayView` renders different screens per `currentScene.id`:
+
+| Scene id | Screen |
+|----------|--------|
+| 0 | `TransactionScreen` (account activity — default fallback) |
+| 1 | Help & Support menu |
+| 2 | `DialerOverlay` (ringing → DTMF dialling → "Connecting to IVR...") |
+| 3 | In IVR — spinning ring + IVR welcome prompt |
+| 4 | Call Steering — 12-key DTMF keypad + prompt text |
+| 5 | On Hold — ID&V Incomplete + Estimated: 5m |
+| 6 | Agent connected — agent greets "Hi Joe, how can I help you today?" |
+| 7 | `TransactionScreen` (strategic overlay scene) |
+
+The `DialerOverlay` is controlled by `overlayActive` state in `TodayView`. It activates on `currentScene.id === 2` and deactivates when `id > 2` (never self-dismisses). It synthesizes a UK ring tone (400Hz + 450Hz burst pattern) and standard DTMF tones using the Web Audio API, with no external audio assets.
+
+### Today Mode — In-App DTMF Dialling Accuracy
+
+The demo depicts Scenario A: the customer calls via the in-app dialler. DTMF passes Name, Intent, ID&V flag, and Classification to the colleague — but this is fragile: the transfer can be interrupted, the customer does not know what the digits represent, and a single accidental key press corrupts the match. `AgentDesktop` today mode shows a split panel: "Partial Context Received" (green) vs "Not Available — Must Re-capture Manually" (red). The agent is shown knowing Joe's name because DTMF passed it.
+
+### Audio Race Condition
+
+When scenes change quickly, `audio.play()` on the first scene may be interrupted and reject. The `catch` handler in `DemoContext` guards against starting TTS fallback if a newer audio object has already taken over: `if (currentAudioRef.current !== audio) return;`. Do not remove this guard.
+
 ### Key Constraints
 
 - No backend, no API calls — all data is hardcoded mock data

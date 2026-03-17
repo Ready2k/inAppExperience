@@ -30,7 +30,11 @@ const FlowLine = ({ label, from, to, status, color = "brand-cyan", isActive }) =
 export const ArchitectureOverlay = () => {
   const { demoMode } = useDemo();
   const isToday = demoMode === 'today';
-  
+  const isCompare = demoMode === 'compare';
+
+  const futureActive = !isToday;   // future + compare both highlight WebRTC
+  const legacyActive = isToday || isCompare;  // today + compare both highlight PSTN
+
   return (
     <div className="max-w-6xl w-full mx-auto p-12 bg-bg-secondary rounded-[32px] border border-white/10 shadow-2xl overflow-hidden relative">
       {/* Background Ambient Glow */}
@@ -41,35 +45,39 @@ export const ArchitectureOverlay = () => {
         {/* Left Side: Strategic Value */}
         <div className="space-y-8">
           <div>
-            <span className={`text-xs font-bold uppercase tracking-[0.3em] mb-4 block transition-colors duration-500 ${isToday ? 'text-error' : 'text-brand-cyan'}`}>
-              {isToday ? 'Legacy Architecture' : 'Strategic Architecture'}
+            <span className={`text-xs font-bold uppercase tracking-[0.3em] mb-4 block transition-colors duration-500 ${isToday ? 'text-error' : isCompare ? 'text-white/60' : 'text-brand-cyan'}`}>
+              {isToday ? 'Legacy Architecture' : isCompare ? 'Architecture Comparison' : 'Strategic Architecture'}
             </span>
             <h1 className="text-5xl font-bold text-white leading-tight">
               {isToday ? (
                 <>Fragmented<br />PSTN Voice</>
+              ) : isCompare ? (
+                <>PSTN vs<br />WebRTC Data</>
               ) : (
                 <>Data-Native<br />In-App Calling</>
               )}
             </h1>
           </div>
-          
+
           <p className="text-lg text-text-secondary leading-relaxed transition-all duration-500">
-            {isToday 
+            {isToday
               ? "The legacy world relies on isolated PSTN voice channels. Identity, context, and data are siloed, resulting in high friction and repetitive security cycles."
+              : isCompare
+              ? "On the left, legacy PSTN — a closed, voice-only loop that creates data silos and high friction. On the right, WebRTC and data — every conversation is observable and integrated."
               : "Transitioning to an integrated WebRTC Data Layer allows the bank to maintain persistent session context and multimodal AI orchestration."
             }
           </p>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-white/5 border-white/5 opacity-50' : 'bg-brand-cyan/5 border-brand-cyan/20'}`}>
-              <div className={isToday ? 'text-text-secondary' : 'text-brand-cyan'}><Globe size={20} /></div>
-              <h3 className="text-sm font-bold text-white mb-1">Scale Limit</h3>
-              <p className="text-[11px] text-text-secondary">{isToday ? 'Fixed PSTN trunking costs.' : 'Cloud-native WebRTC.'}</p>
+            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-error/5 border-error/20' : isCompare ? 'bg-error/5 border-error/20' : 'bg-white/5 border-white/5 opacity-50'}`}>
+              <div className={isToday || isCompare ? 'text-error' : 'text-text-secondary'}><Phone size={20} /></div>
+              <h3 className="text-sm font-bold text-white mb-1">Trust Silos</h3>
+              <p className="text-[11px] text-text-secondary">Repeated ID&V cycles.</p>
             </div>
-            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-error/5 border-error/20' : 'bg-success/5 border-success/20'}`}>
-              <div className={isToday ? 'text-error' : 'text-success'}><Shield size={20} /></div>
-              <h3 className="text-sm font-bold text-white mb-1">{isToday ? 'Trust Silos' : 'Zero-Trust'}</h3>
-              <p className="text-[11px] text-text-secondary">{isToday ? 'Repeated ID&V cycles.' : 'In-app auth persists.'}</p>
+            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-white/5 border-white/5 opacity-50' : 'bg-brand-cyan/5 border-brand-cyan/20'}`}>
+              <div className={isToday ? 'text-text-secondary' : 'text-brand-cyan'}><Shield size={20} /></div>
+              <h3 className="text-sm font-bold text-white mb-1">Zero-Trust</h3>
+              <p className="text-[11px] text-text-secondary">In-app auth persists.</p>
             </div>
           </div>
         </div>
@@ -78,33 +86,33 @@ export const ArchitectureOverlay = () => {
         <div className="space-y-6">
           {/* Future Section */}
           <div className={`p-8 rounded-[24px] border transition-all duration-700 ${
-            !isToday ? 'bg-black/40 border-brand-cyan/30 ring-1 ring-brand-cyan/20' : 'bg-white/5 border-white/5 opacity-20 grayscale'
+            futureActive ? 'bg-black/40 border-brand-cyan/30 ring-1 ring-brand-cyan/20' : 'bg-white/5 border-white/5 opacity-20 grayscale'
           }`}>
-            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${!isToday ? 'text-white' : 'text-text-secondary'}`}>
-              <Zap size={16} className={!isToday ? 'text-brand-cyan' : 'text-text-secondary'} />
+            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${futureActive ? 'text-white' : 'text-text-secondary'}`}>
+              <Zap size={16} className={futureActive ? 'text-brand-cyan' : 'text-text-secondary'} />
               Future: Data via WebRTC
             </h3>
-            
+
             <div className="space-y-3">
-              <FlowLine label="Primary Route" from="Client App (WebRTC)" to="AI Gateway (Data)" status="Active" isActive={!isToday} />
-              <FlowLine label="Media Stack" from="Opus Audio" to="Amazon Nova (S2S)" status="Active" isActive={!isToday} />
-              <FlowLine label="Context" from="React State" to="Handoff Package" status="Active" isActive={!isToday} />
+              <FlowLine label="Primary Route" from="Client App (WebRTC)" to="AI Gateway (Data)" status="Active" isActive={futureActive} />
+              <FlowLine label="Media Stack" from="Opus Audio" to="Amazon Nova (S2S)" status="Active" isActive={futureActive} />
+              <FlowLine label="Context" from="React State" to="Handoff Package" status="Active" isActive={futureActive} />
             </div>
           </div>
 
           {/* Legacy Section */}
           <div className={`p-8 rounded-[24px] border transition-all duration-700 ${
-            isToday ? 'bg-error/5 border-error/30 ring-1 ring-error/20' : 'bg-white/5 border-white/5'
+            legacyActive ? 'bg-error/5 border-error/30 ring-1 ring-error/20' : 'bg-white/5 border-white/5'
           }`}>
-            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${isToday ? 'text-white' : 'text-text-secondary'}`}>
-              <Phone size={16} className={isToday ? 'text-error' : 'text-text-secondary'} />
+            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${legacyActive ? 'text-white' : 'text-text-secondary'}`}>
+              <Phone size={16} className={legacyActive ? 'text-error' : 'text-text-secondary'} />
               Legacy: Traditional PSTN
             </h3>
-            
+
             <div className="space-y-3">
-              <FlowLine label="Media Route" from="Public Telephone Network" to="PSTN Gateway" status="Active" color="error" isActive={isToday} />
-              <FlowLine label="Identity" from="Manual IVR" to="Agent Prompt" status="Incomplete" color="error" isActive={isToday} />
-              <FlowLine label="Context" from="None (Blind)" to="Cold Transfer" status="Disconnected" color="error" isActive={isToday} />
+              <FlowLine label="Media Route" from="Public Telephone Network" to="PSTN Gateway" status="Active" color="error" isActive={legacyActive} />
+              <FlowLine label="Identity" from="Manual IVR" to="Agent Prompt" status="Incomplete" color="error" isActive={legacyActive} />
+              <FlowLine label="Context" from="None (Blind)" to="Cold Transfer" status="Disconnected" color="error" isActive={legacyActive} />
             </div>
           </div>
         </div>
@@ -112,19 +120,17 @@ export const ArchitectureOverlay = () => {
 
       <div className="mt-16 flex items-center justify-between border-t border-white/5 pt-8">
         <div className="flex items-center gap-6">
-           <div className={`flex items-center gap-2 transition-opacity duration-500 ${isToday ? 'opacity-30' : 'opacity-100'}`}>
+           <div className={`flex items-center gap-2 transition-opacity duration-500 ${futureActive ? 'opacity-100' : 'opacity-30'}`}>
               <div className="w-2 h-2 rounded-full bg-brand-cyan shadow-[0_0_8px_rgba(0,174,239,1)]" />
               <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">WebRTC Orchestrated</span>
            </div>
-           <div className={`flex items-center gap-2 transition-opacity duration-500 ${isToday ? 'opacity-100' : 'opacity-100'}`}>
-              <div className={`w-2 h-2 rounded-full shadow-[0_0_8px_rgba(239,68,68,1)] transition-colors duration-500 ${isToday ? 'bg-error' : 'bg-accent-purple shadow-[0_0_8px_rgba(124,58,237,1)]'}`} />
-              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">
-                {isToday ? 'PSTN Fragmented' : 'Context-Aware'}
-              </span>
+           <div className={`flex items-center gap-2 transition-opacity duration-500 ${legacyActive ? 'opacity-100' : 'opacity-30'}`}>
+              <div className="w-2 h-2 rounded-full bg-error shadow-[0_0_8px_rgba(239,68,68,1)]" />
+              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">PSTN Fragmented</span>
            </div>
         </div>
         <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em]">
-          {isToday ? 'Barclays Legacy Stack' : 'Barclays Architecture 2028'}
+          {isToday ? 'Barclays Legacy Stack' : isCompare ? 'Barclays Architecture — Today vs 2028' : 'Barclays Architecture 2028'}
         </div>
       </div>
     </div>
