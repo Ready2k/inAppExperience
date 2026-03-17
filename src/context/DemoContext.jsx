@@ -52,7 +52,7 @@ export const DemoProvider = ({ children }) => {
       if (window.speechSynthesis) window.speechSynthesis.cancel();
 
       // Try the pre-generated MP3 first; fall back to Web Speech API.
-      const audio = new Audio(`/narration/${mode}/scene${sceneIndex}.mp3`);
+      const audio = new Audio(`${import.meta.env.BASE_URL}narration/${mode}/scene${sceneIndex}.mp3`);
       currentAudioRef.current = audio;
       audio.play().catch(() => {
         // File not found or autoplay blocked — use Web Speech API.
