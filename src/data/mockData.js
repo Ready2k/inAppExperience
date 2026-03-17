@@ -136,6 +136,10 @@ export const demoScenes = [
     name: "Human Handoff",
     label: "Scene 7 of 8: Seamless Handoff",
     delta: "Repeating yourself vs full context luggage",
+    compareNarrative: {
+      today: "Today, handover is a 'Cold Transfer'. The customer arrives with no baggage — the specialist has no context, no transcript, and no identity confirmation.",
+      future: "With WebRTC In-App, we provide 'Warm Handoff'. The specialist joins with a full 'luggage' of data: transcript, actions taken, and confirmed identity."
+    },
     narration: {
       today: "Handing over to a human usually means a cold transfer. You repeat your name, your issue, and what you've already tried.",
       future: "When the specialist joins, they don't start from zero. They arrive with a full 'context luggage' — the transcript, the actions taken, and the exact reason for the call."
@@ -146,6 +150,10 @@ export const demoScenes = [
     name: "Strategic Overlay",
     label: "Scene 8 of 8: Architecture Value",
     delta: "Legacy PSTN vs Modern Data Strategy",
+    compareNarrative: {
+      today: "The legacy world is trapped on the PSTN. It's a closed, voice-only loop that creates data silos and high friction.",
+      future: "The future is a Data-Native strategy. Every call is an observable, multimodal data stream integrated into the bank's core logic."
+    },
     narration: {
       today: "The legacy world is built on PSTN voice — isolated from data. It's expensive, opaque, and fragmented.",
       future: "The future is WebRTC and Data. Every conversation is a data stream — rich, observable, and integrated into the bank's core logic."

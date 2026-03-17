@@ -74,8 +74,9 @@ const DialerOverlay = ({ onComplete }) => {
   );
 };
 
-export const TodayView = () => {
-  const { currentScene } = useDemo();
+export const TodayView = ({ scene: propsScene }) => {
+  const { currentScene: contextScene } = useDemo();
+  const currentScene = propsScene || contextScene;
   const [overlayActive, setOverlayActive] = useState(false);
 
   useEffect(() => {
