@@ -1,85 +1,110 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Phone, Zap, Shield, Database, Wifi, Server, ArrowRight } from 'lucide-react';
+import { Globe, Phone, Zap, Shield, Database, Wifi, Server, ArrowRight, AlertCircle } from 'lucide-react';
+import { useDemo } from '../../context/DemoContext';
 
-const FlowLine = ({ label, from, to, status, color = "brand-cyan" }) => (
-  <div className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10 group hover:border-brand-cyan/30 transition-colors">
+const FlowLine = ({ label, from, to, status, color = "brand-cyan", isActive }) => (
+  <div className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-500 ${
+    isActive 
+      ? `bg-${color}/10 border-${color}/30 shadow-[0_0_15px_rgba(0,174,239,0.1)]` 
+      : 'bg-white/5 border-white/10 opacity-30 grayscale'
+  }`}>
     <div className="flex-1">
-      <div className="text-[10px] uppercase font-bold text-text-secondary tracking-widest mb-1">{label}</div>
+      <div className={`text-[10px] uppercase font-bold tracking-widest mb-1 ${isActive ? `text-${color}` : 'text-text-secondary'}`}>{label}</div>
       <div className="flex items-center gap-3">
-        <span className="text-sm font-bold text-white">{from}</span>
-        <ArrowRight size={14} className="text-brand-cyan" />
-        <span className="text-sm font-bold text-white">{to}</span>
+        <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-text-secondary'}`}>{from}</span>
+        <ArrowRight size={14} className={isActive ? `text-${color}` : 'text-text-secondary'} />
+        <span className={`text-sm font-bold ${isActive ? 'text-white' : 'text-text-secondary'}`}>{to}</span>
       </div>
     </div>
-    <div className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest bg-opacity-10 ${status === 'Active' ? 'bg-success text-success' : 'text-text-secondary bg-white'}`}>
+    <div className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest ${
+      isActive 
+        ? status === 'Active' ? 'bg-success/20 text-success' : 'bg-warning/20 text-warning'
+        : 'bg-white/5 text-text-secondary'
+    }`}>
       {status}
     </div>
   </div>
 );
 
 export const ArchitectureOverlay = () => {
+  const { demoMode } = useDemo();
+  const isToday = demoMode === 'today';
+  
   return (
     <div className="max-w-6xl w-full mx-auto p-12 bg-bg-secondary rounded-[32px] border border-white/10 shadow-2xl overflow-hidden relative">
       {/* Background Ambient Glow */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-cyan/10 rounded-full blur-[100px]" />
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent-purple/10 rounded-full blur-[100px]" />
+      <div className={`absolute -top-24 -right-24 w-96 h-96 rounded-full blur-[100px] transition-colors duration-1000 ${isToday ? 'bg-error/5' : 'bg-brand-cyan/10'}`} />
+      <div className={`absolute -bottom-24 -left-24 w-96 h-96 rounded-full blur-[100px] transition-colors duration-1000 ${isToday ? 'bg-warning/5' : 'bg-accent-purple/10'}`} />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Left Side: Strategic Value */}
         <div className="space-y-8">
           <div>
-            <span className="text-xs font-bold text-brand-cyan uppercase tracking-[0.3em] mb-4 block">Strategic Architecture</span>
-            <h1 className="text-5xl font-bold text-white leading-tight">Data-Native<br />In-App Calling</h1>
+            <span className={`text-xs font-bold uppercase tracking-[0.3em] mb-4 block transition-colors duration-500 ${isToday ? 'text-error' : 'text-brand-cyan'}`}>
+              {isToday ? 'Legacy Architecture' : 'Strategic Architecture'}
+            </span>
+            <h1 className="text-5xl font-bold text-white leading-tight">
+              {isToday ? (
+                <>Fragmented<br />PSTN Voice</>
+              ) : (
+                <>Data-Native<br />In-App Calling</>
+              )}
+            </h1>
           </div>
           
-          <p className="text-lg text-text-secondary leading-relaxed">
-            Transitioning from legacy PSTN voice to an integrated WebRTC Data Layer allows the bank to maintain persistent session context and multimodal AI orchestration.
+          <p className="text-lg text-text-secondary leading-relaxed transition-all duration-500">
+            {isToday 
+              ? "The legacy world relies on isolated PSTN voice channels. Identity, context, and data are siloed, resulting in high friction and repetitive security cycles."
+              : "Transitioning to an integrated WebRTC Data Layer allows the bank to maintain persistent session context and multimodal AI orchestration."
+            }
           </p>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-              <div className="text-brand-cyan mb-2"><Globe size={20} /></div>
-              <h3 className="text-sm font-bold text-white mb-1">Global Scale</h3>
-              <p className="text-[11px] text-text-secondary">Cloud-native WebRTC infrastructure.</p>
+            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-white/5 border-white/5 opacity-50' : 'bg-brand-cyan/5 border-brand-cyan/20'}`}>
+              <div className={isToday ? 'text-text-secondary' : 'text-brand-cyan'}><Globe size={20} /></div>
+              <h3 className="text-sm font-bold text-white mb-1">Scale Limit</h3>
+              <p className="text-[11px] text-text-secondary">{isToday ? 'Fixed PSTN trunking costs.' : 'Cloud-native WebRTC.'}</p>
             </div>
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-              <div className="text-success mb-2"><Shield size={20} /></div>
-              <h3 className="text-sm font-bold text-white mb-1">Zero-Trust</h3>
-              <p className="text-[11px] text-text-secondary">In-app auth persists into voice.</p>
+            <div className={`p-4 rounded-2xl border transition-all duration-500 ${isToday ? 'bg-error/5 border-error/20' : 'bg-success/5 border-success/20'}`}>
+              <div className={isToday ? 'text-error' : 'text-success'}><Shield size={20} /></div>
+              <h3 className="text-sm font-bold text-white mb-1">{isToday ? 'Trust Silos' : 'Zero-Trust'}</h3>
+              <p className="text-[11px] text-text-secondary">{isToday ? 'Repeated ID&V cycles.' : 'In-app auth persists.'}</p>
             </div>
           </div>
         </div>
 
         {/* Right Side: Network Flow Comparison */}
         <div className="space-y-6">
-          <div className="bg-black/20 p-8 rounded-[24px] border border-white/5 space-y-6">
-            <h3 className="text-sm font-bold text-white uppercase tracking-widest flex items-center gap-2">
-              <Zap size={16} className="text-brand-cyan" />
+          {/* Future Section */}
+          <div className={`p-8 rounded-[24px] border transition-all duration-700 ${
+            !isToday ? 'bg-black/40 border-brand-cyan/30 ring-1 ring-brand-cyan/20' : 'bg-white/5 border-white/5 opacity-20 grayscale'
+          }`}>
+            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${!isToday ? 'text-white' : 'text-text-secondary'}`}>
+              <Zap size={16} className={!isToday ? 'text-brand-cyan' : 'text-text-secondary'} />
               Future: Data via WebRTC
             </h3>
             
             <div className="space-y-3">
-              <FlowLine label="Primary Route" from="Client App (WebRTC)" to="AI Gateway (Data)" status="Active" />
-              <FlowLine label="Media Stack" from="Opus Audio" to="Amazon Nova (S2S)" status="Active" />
-              <FlowLine label="Context" from="React State" to="Handoff Package" status="Active" />
-            </div>
-
-            <div className="pt-4 border-t border-white/5">
-              <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-widest mb-4">Redundancy / Fallback</h3>
-              <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-dashed border-white/20 opacity-60">
-                <Phone size={14} />
-                <span className="text-xs font-medium">Automatic PSTN Failover (No Signal / Data)</span>
-              </div>
+              <FlowLine label="Primary Route" from="Client App (WebRTC)" to="AI Gateway (Data)" status="Active" isActive={!isToday} />
+              <FlowLine label="Media Stack" from="Opus Audio" to="Amazon Nova (S2S)" status="Active" isActive={!isToday} />
+              <FlowLine label="Context" from="React State" to="Handoff Package" status="Active" isActive={!isToday} />
             </div>
           </div>
 
-          <div className="bg-white/5 p-6 rounded-[24px] border border-white/5 opacity-40 grayscale group hover:grayscale-0 transition-all">
-            <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-widest mb-4">Legacy: Traditional Voice</h3>
-            <div className="flex items-center gap-4">
-              <div className="flex-1 h-2 bg-white/10 rounded-full" />
-              <span className="text-[10px] uppercase font-bold text-text-secondary">Fragmented PSTN Journey</span>
-              <div className="flex-1 h-2 bg-white/10 rounded-full" />
+          {/* Legacy Section */}
+          <div className={`p-8 rounded-[24px] border transition-all duration-700 ${
+            isToday ? 'bg-error/5 border-error/30 ring-1 ring-error/20' : 'bg-white/5 border-white/5'
+          }`}>
+            <h3 className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 mb-6 ${isToday ? 'text-white' : 'text-text-secondary'}`}>
+              <Phone size={16} className={isToday ? 'text-error' : 'text-text-secondary'} />
+              Legacy: Traditional PSTN
+            </h3>
+            
+            <div className="space-y-3">
+              <FlowLine label="Media Route" from="Public Telephone Network" to="PSTN Gateway" status="Active" color="error" isActive={isToday} />
+              <FlowLine label="Identity" from="Manual IVR" to="Agent Prompt" status="Incomplete" color="error" isActive={isToday} />
+              <FlowLine label="Context" from="None (Blind)" to="Cold Transfer" status="Disconnected" color="error" isActive={isToday} />
             </div>
           </div>
         </div>
@@ -87,16 +112,20 @@ export const ArchitectureOverlay = () => {
 
       <div className="mt-16 flex items-center justify-between border-t border-white/5 pt-8">
         <div className="flex items-center gap-6">
-           <div className="flex items-center gap-2">
+           <div className={`flex items-center gap-2 transition-opacity duration-500 ${isToday ? 'opacity-30' : 'opacity-100'}`}>
               <div className="w-2 h-2 rounded-full bg-brand-cyan shadow-[0_0_8px_rgba(0,174,239,1)]" />
               <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">WebRTC Orchestrated</span>
            </div>
-           <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-accent-purple shadow-[0_0_8px_rgba(124,58,237,1)]" />
-              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Context-Aware</span>
+           <div className={`flex items-center gap-2 transition-opacity duration-500 ${isToday ? 'opacity-100' : 'opacity-100'}`}>
+              <div className={`w-2 h-2 rounded-full shadow-[0_0_8px_rgba(239,68,68,1)] transition-colors duration-500 ${isToday ? 'bg-error' : 'bg-accent-purple shadow-[0_0_8px_rgba(124,58,237,1)]'}`} />
+              <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">
+                {isToday ? 'PSTN Fragmented' : 'Context-Aware'}
+              </span>
            </div>
         </div>
-        <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em]">Barclays Architecture 2028</div>
+        <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.4em]">
+          {isToday ? 'Barclays Legacy Stack' : 'Barclays Architecture 2028'}
+        </div>
       </div>
     </div>
   );
